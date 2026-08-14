@@ -1,14 +1,15 @@
 :root {
-  --bg: #05060a;
-  --surface: #0d1220;
-  --border: #1c2a45;
-  --text: #e6edf7;
-  --muted: #8b9bb8;
+  --bg: #10192f;
+  --surface: #182544;
+  --border: #2e4270;
+  --text: #dce4f2;
+  --muted: #a3b1d1;
   --neon-cyan: #38e1ff;
   --neon-blue: #4f8dff;
   --neon-purple: #a855f7;
   --font-body: "Heebo", sans-serif;
   --font-display: "Secular One", sans-serif;
+  font-size: 18px;
 }
 
 * {
@@ -44,7 +45,7 @@ header {
   position: sticky;
   top: 0;
   z-index: 10;
-  background: rgba(13, 18, 32, 0.75);
+  background: rgba(24, 37, 68, 0.75);
   backdrop-filter: blur(8px);
 }
 
@@ -59,9 +60,8 @@ header {
 }
 
 .logo {
-  height: 36px;
+  height: 72px;
   width: auto;
-  border-radius: 4px;
   display: block;
 }
 
@@ -159,9 +159,10 @@ h1.neon-text {
 }
 
 .edition-date {
-  font-size: 0.85rem;
+  font-size: 0.75em;
+  font-weight: 400;
   color: var(--muted);
-  margin-bottom: 0.25rem;
+  text-shadow: none;
 }
 
 .edition-title {
@@ -191,7 +192,7 @@ h1.neon-text {
 
 .post-body h2 {
   font-family: var(--font-display);
-  color: var(--neon-purple);
+  color: var(--accent, var(--neon-purple));
   font-size: 1.5rem;
   margin-top: 2.5rem;
   border-bottom: 1px solid var(--border);
@@ -204,19 +205,205 @@ h1.neon-text {
 
 .post-body h3 {
   font-family: var(--font-display);
-  color: var(--neon-cyan);
-  font-size: 1.15rem;
-  margin-top: 1.8rem;
-  margin-bottom: 0.5rem;
+  color: var(--accent, var(--neon-cyan));
+  font-size: 1.05rem;
+  margin: 0;
+  transition: text-shadow 0.2s ease;
 }
 
 .post-body p {
   margin: 0.5rem 0 1.2rem;
+  font-size: 1.08rem;
 }
 
 .post-body strong {
   color: var(--neon-cyan);
   font-weight: 700;
+}
+
+/* Category sections — each gets its own neon accent */
+.category {
+  margin-top: 2.5rem;
+}
+
+.category:first-child {
+  margin-top: 0;
+}
+
+.category-models {
+  --accent: var(--neon-cyan);
+}
+
+.category-tools {
+  --accent: var(--neon-blue);
+}
+
+.category-video {
+  --accent: var(--neon-purple);
+}
+
+/* Table of contents */
+.toc {
+  border: 1px solid var(--border);
+  border-radius: 0.75rem;
+  background: var(--surface);
+  padding: 1.25rem 1.5rem;
+  margin-bottom: 2.5rem;
+}
+
+.toc-title {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin: 0 0 1rem !important;
+  font-family: var(--font-body) !important;
+  font-size: 0.8rem !important;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--muted) !important;
+}
+
+.toc-title::before {
+  content: "";
+  width: 0.5rem;
+  height: 0.5rem;
+  border-radius: 50%;
+  background: var(--neon-cyan);
+  box-shadow: 0 0 6px var(--neon-cyan), 0 0 2px var(--neon-cyan);
+  flex: none;
+}
+
+.toc > ol {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.7rem;
+}
+
+.toc > ol > li:nth-child(1) > a {
+  --chip-accent: var(--neon-cyan);
+}
+
+.toc > ol > li:nth-child(2) > a {
+  --chip-accent: var(--neon-blue);
+}
+
+.toc > ol > li:nth-child(3) > a {
+  --chip-accent: var(--neon-purple);
+}
+
+.toc > ol > li > a {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
+  padding: 0.55rem 1.1rem;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  font-weight: 600;
+  font-size: 0.92rem;
+  text-decoration: none;
+  color: var(--text);
+  transition: border-color 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+}
+
+.toc > ol > li > a::before {
+  content: "";
+  width: 0.5rem;
+  height: 0.5rem;
+  border-radius: 50%;
+  background: var(--chip-accent, var(--neon-cyan));
+  box-shadow: 0 0 6px var(--chip-accent, var(--neon-cyan));
+  flex: none;
+}
+
+.toc > ol > li > a:hover,
+.toc > ol > li > a:focus-visible,
+.toc > ol > li > a:active {
+  border-color: var(--chip-accent, var(--neon-cyan));
+  background: rgba(255, 255, 255, 0.03);
+  box-shadow: 0 0 16px color-mix(in srgb, var(--chip-accent, var(--neon-cyan)) 30%, transparent);
+}
+
+/* Accordion news items */
+.post-body details {
+  border: 1px solid var(--border);
+  border-inline-start: 3px solid var(--accent, var(--neon-cyan));
+  border-radius: 0.5rem;
+  background: var(--surface);
+  margin: 0.9rem 0;
+  padding: 0 1.1rem;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.post-body details[open] {
+  box-shadow: 0 0 20px color-mix(in srgb, var(--accent, var(--neon-cyan)) 12%, transparent);
+}
+
+.post-body summary {
+  cursor: pointer;
+  list-style: none;
+  padding: 1rem 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.post-body summary::-webkit-details-marker {
+  display: none;
+}
+
+.post-body summary::after {
+  content: "+";
+  flex: none;
+  width: 1.6rem;
+  height: 1.6rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--accent, var(--neon-cyan));
+  border-radius: 50%;
+  color: var(--accent, var(--neon-cyan));
+  font-family: ui-monospace, "SF Mono", Menlo, monospace;
+  font-size: 1rem;
+  transition: transform 0.25s ease, background 0.2s ease;
+}
+
+.post-body details[open] summary::after {
+  transform: rotate(45deg);
+  background: var(--accent, var(--neon-cyan));
+  color: var(--bg);
+}
+
+.post-body details:not([open]) summary:hover::after,
+.post-body details:not([open]) summary:focus-visible::after,
+.post-body details:not([open]) summary:active::after {
+  background: color-mix(in srgb, var(--accent, var(--neon-cyan)) 18%, transparent);
+}
+
+.post-body summary:hover h3,
+.post-body summary:focus-visible h3,
+.post-body summary:active h3 {
+  text-shadow: 0 0 10px color-mix(in srgb, var(--accent, var(--neon-cyan)) 60%, transparent);
+}
+
+.news-body {
+  padding-bottom: 1rem;
+}
+
+.back-to-toc {
+  display: inline-block;
+  font-size: 0.8rem;
+  color: var(--muted);
+  text-decoration: none;
+}
+
+.back-to-toc:hover,
+.back-to-toc:focus-visible {
+  color: var(--neon-cyan);
 }
 
 /* Latin/code fragments inside RTL Hebrew text */
@@ -243,4 +430,51 @@ footer {
   text-align: center;
   font-size: 0.85rem;
   color: var(--muted);
+}
+
+/* Small phones — tighter gutters, fluid headline scale, roomier tap targets */
+@media (max-width: 480px) {
+  main {
+    padding: 1.5rem 0.85rem;
+  }
+
+  h1.neon-text {
+    font-size: clamp(1.4rem, 7vw, 1.9rem);
+  }
+
+  .post-body h2 {
+    font-size: 1.25rem;
+    margin-top: 2rem;
+  }
+
+  .post-body details {
+    padding: 0 0.9rem;
+  }
+
+  .toc {
+    padding: 1rem 1.1rem;
+  }
+
+  .toc > ol > li > a {
+    padding: 0.65rem 1.1rem;
+  }
+
+  .post-body summary::after {
+    width: 1.75rem;
+    height: 1.75rem;
+  }
+
+  .logo {
+    height: 56px;
+  }
+}
+
+@supports (padding: max(0px)) {
+  header {
+    padding-top: env(safe-area-inset-top);
+  }
+
+  footer {
+    padding-bottom: max(1.5rem, env(safe-area-inset-bottom));
+  }
 }
