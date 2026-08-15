@@ -1,15 +1,32 @@
 :root {
   --bg: #10192f;
-  --surface: #182544;
-  --border: #2e4270;
+  --surface: #141b30;
+  --border: #263457;
   --text: #dce4f2;
   --muted: #a3b1d1;
   --neon-cyan: #38e1ff;
   --neon-blue: #4f8dff;
   --neon-purple: #a855f7;
+  --grid-line: rgba(140, 170, 220, 0.035);
   --font-body: "Heebo", sans-serif;
   --font-display: "Secular One", sans-serif;
+  --font-mono: ui-monospace, "SF Mono", Menlo, monospace;
+  --radius: 2px;
   font-size: 18px;
+}
+
+/* Light theme — "blueprint" mode: same technical-panel language, ink on paper
+   instead of glow on dark glass. Toggled via [data-theme] on <html>. */
+html[data-theme="light"] {
+  --bg: #eef2f9;
+  --surface: #ffffff;
+  --border: #c7d2e3;
+  --text: #16213a;
+  --muted: #55648a;
+  --neon-cyan: #0891b2;
+  --neon-blue: #3457c9;
+  --neon-purple: #8b2fd4;
+  --grid-line: rgba(30, 55, 100, 0.05);
 }
 
 * {
@@ -22,7 +39,11 @@ html {
 
 body {
   margin: 0;
-  background: var(--bg);
+  background:
+    linear-gradient(var(--grid-line) 1px, transparent 1px) 0 0 / 48px 48px,
+    linear-gradient(90deg, var(--grid-line) 1px, transparent 1px) 0 0 / 48px 48px,
+    var(--bg);
+  background-attachment: fixed;
   color: var(--text);
   font-family: var(--font-body);
   line-height: 1.6;
@@ -45,17 +66,25 @@ header {
   position: sticky;
   top: 0;
   z-index: 10;
-  background: rgba(24, 37, 68, 0.75);
+  background: color-mix(in srgb, var(--surface) 75%, transparent);
   backdrop-filter: blur(8px);
 }
 
-.header-inner {
+.header-bar {
   max-width: 860px;
   margin: 0 auto;
   padding: 0.75rem 1rem;
   display: flex;
   align-items: center;
+  justify-content: space-between;
   gap: 0.75rem;
+}
+
+.header-inner {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  min-width: 0;
   text-decoration: none;
 }
 
@@ -68,6 +97,83 @@ header {
 .tagline {
   font-size: 0.85rem;
   color: var(--muted);
+  white-space: nowrap;
+}
+
+.theme-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  flex: none;
+}
+
+.theme-toggle-btn {
+  display: inline-flex;
+  border: none;
+  background: none;
+  padding: 0.2rem;
+  cursor: pointer;
+  line-height: 0;
+}
+
+.theme-toggle-btn svg {
+  width: 1rem;
+  height: 1rem;
+  flex: none;
+}
+
+.icon-sun {
+  fill: none;
+  stroke: var(--muted);
+  stroke-width: 2;
+  stroke-linecap: round;
+  transition: stroke 0.2s ease;
+}
+
+.icon-moon {
+  fill: var(--muted);
+  transition: fill 0.2s ease;
+}
+
+html:not([data-theme="light"]) .icon-moon {
+  fill: var(--neon-cyan);
+}
+
+html[data-theme="light"] .icon-sun {
+  stroke: var(--neon-cyan);
+}
+
+.toggle-track {
+  position: relative;
+  width: 2.2rem;
+  height: 1.2rem;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  background: var(--surface);
+  flex: none;
+  padding: 0;
+  cursor: pointer;
+  transition: border-color 0.2s ease;
+}
+
+.toggle-track:hover,
+.toggle-track:focus-visible {
+  border-color: var(--neon-cyan);
+}
+
+.toggle-knob {
+  position: absolute;
+  top: 1px;
+  inset-inline-end: 1px;
+  width: 0.95rem;
+  height: 0.95rem;
+  border-radius: 50%;
+  background: var(--neon-cyan);
+  transition: inset-inline-end 0.2s ease;
+}
+
+html[data-theme="light"] .toggle-knob {
+  inset-inline-end: calc(100% - 0.95rem - 1px);
 }
 
 @media (max-width: 560px) {
@@ -110,7 +216,7 @@ main {
 
 .hero {
   overflow: hidden;
-  border-radius: 1rem;
+  border-radius: var(--radius);
   border: 1px solid var(--border);
   margin-bottom: 2.5rem;
 }
@@ -124,7 +230,8 @@ main {
 .neon-text {
   font-family: var(--font-display);
   color: var(--neon-cyan);
-  text-shadow: 0 0 6px rgba(56, 225, 255, 0.8), 0 0 24px rgba(79, 141, 255, 0.5);
+  text-shadow: 0 0 6px color-mix(in srgb, var(--neon-cyan) 80%, transparent),
+    0 0 24px color-mix(in srgb, var(--neon-blue) 50%, transparent);
 }
 
 h1.neon-text {
@@ -145,8 +252,9 @@ h1.neon-text {
 .edition-card {
   display: block;
   border: 1px solid var(--border);
+  border-top: 2px solid var(--neon-cyan);
   background: var(--surface);
-  border-radius: 0.75rem;
+  border-radius: var(--radius);
   padding: 1.25rem;
   text-decoration: none;
   transition: border-color 0.2s ease, box-shadow 0.2s ease;
@@ -155,7 +263,7 @@ h1.neon-text {
 .edition-card:hover,
 .edition-card:focus-visible {
   border-color: var(--neon-cyan);
-  box-shadow: 0 0 20px rgba(56, 225, 255, 0.15);
+  box-shadow: 0 0 10px color-mix(in srgb, var(--neon-cyan) 18%, transparent);
 }
 
 .edition-date {
@@ -205,10 +313,14 @@ h1.neon-text {
 
 .post-body h3 {
   font-family: var(--font-display);
-  color: var(--accent, var(--neon-cyan));
+  color: var(--text);
   font-size: 1.05rem;
   margin: 0;
-  transition: text-shadow 0.2s ease;
+  transition: color 0.2s ease, text-shadow 0.2s ease;
+}
+
+.post-body details[open] summary h3 {
+  color: var(--accent, var(--neon-cyan));
 }
 
 .post-body p {
@@ -217,7 +329,7 @@ h1.neon-text {
 }
 
 .post-body strong {
-  color: var(--neon-cyan);
+  color: var(--accent, var(--neon-cyan));
   font-weight: 700;
 }
 
@@ -245,7 +357,7 @@ h1.neon-text {
 /* Table of contents */
 .toc {
   border: 1px solid var(--border);
-  border-radius: 0.75rem;
+  border-radius: var(--radius);
   background: var(--surface);
   padding: 1.25rem 1.5rem;
   margin-bottom: 2.5rem;
@@ -268,9 +380,8 @@ h1.neon-text {
   content: "";
   width: 0.5rem;
   height: 0.5rem;
-  border-radius: 50%;
   background: var(--neon-cyan);
-  box-shadow: 0 0 6px var(--neon-cyan), 0 0 2px var(--neon-cyan);
+  box-shadow: 0 0 5px var(--neon-cyan);
   flex: none;
 }
 
@@ -299,9 +410,10 @@ h1.neon-text {
   display: inline-flex;
   align-items: center;
   gap: 0.55rem;
-  padding: 0.55rem 1.1rem;
+  padding: 0.5rem 1rem;
   border: 1px solid var(--border);
-  border-radius: 999px;
+  border-bottom: 2px solid var(--chip-accent, var(--neon-cyan));
+  border-radius: var(--radius);
   font-weight: 600;
   font-size: 0.92rem;
   text-decoration: none;
@@ -311,11 +423,10 @@ h1.neon-text {
 
 .toc > ol > li > a::before {
   content: "";
-  width: 0.5rem;
-  height: 0.5rem;
-  border-radius: 50%;
+  width: 0.45rem;
+  height: 0.45rem;
   background: var(--chip-accent, var(--neon-cyan));
-  box-shadow: 0 0 6px var(--chip-accent, var(--neon-cyan));
+  box-shadow: 0 0 5px var(--chip-accent, var(--neon-cyan));
   flex: none;
 }
 
@@ -324,14 +435,14 @@ h1.neon-text {
 .toc > ol > li > a:active {
   border-color: var(--chip-accent, var(--neon-cyan));
   background: rgba(255, 255, 255, 0.03);
-  box-shadow: 0 0 16px color-mix(in srgb, var(--chip-accent, var(--neon-cyan)) 30%, transparent);
+  box-shadow: 0 0 8px color-mix(in srgb, var(--chip-accent, var(--neon-cyan)) 30%, transparent);
 }
 
 /* Accordion news items */
 .post-body details {
   border: 1px solid var(--border);
-  border-inline-start: 3px solid var(--accent, var(--neon-cyan));
-  border-radius: 0.5rem;
+  border-top: 2px solid var(--accent, var(--neon-cyan));
+  border-radius: var(--radius);
   background: var(--surface);
   margin: 0.9rem 0;
   padding: 0 1.1rem;
@@ -339,7 +450,8 @@ h1.neon-text {
 }
 
 .post-body details[open] {
-  box-shadow: 0 0 20px color-mix(in srgb, var(--accent, var(--neon-cyan)) 12%, transparent);
+  border-color: var(--accent, var(--neon-cyan));
+  box-shadow: 0 0 10px color-mix(in srgb, var(--accent, var(--neon-cyan)) 18%, transparent);
 }
 
 .post-body summary {
@@ -365,15 +477,15 @@ h1.neon-text {
   align-items: center;
   justify-content: center;
   border: 1px solid var(--accent, var(--neon-cyan));
-  border-radius: 50%;
+  border-radius: var(--radius);
   color: var(--accent, var(--neon-cyan));
-  font-family: ui-monospace, "SF Mono", Menlo, monospace;
+  font-family: var(--font-mono);
   font-size: 1rem;
-  transition: transform 0.25s ease, background 0.2s ease;
+  transition: background 0.2s ease, color 0.2s ease;
 }
 
 .post-body details[open] summary::after {
-  transform: rotate(45deg);
+  content: "−";
   background: var(--accent, var(--neon-cyan));
   color: var(--bg);
 }
@@ -387,7 +499,8 @@ h1.neon-text {
 .post-body summary:hover h3,
 .post-body summary:focus-visible h3,
 .post-body summary:active h3 {
-  text-shadow: 0 0 10px color-mix(in srgb, var(--accent, var(--neon-cyan)) 60%, transparent);
+  color: var(--accent, var(--neon-cyan));
+  text-shadow: 0 0 6px color-mix(in srgb, var(--accent, var(--neon-cyan)) 50%, transparent);
 }
 
 .news-body {
@@ -417,10 +530,10 @@ code,
 code {
   background: var(--surface);
   border: 1px solid var(--border);
-  border-radius: 4px;
+  border-radius: var(--radius);
   padding: 0 0.3em;
   font-size: 0.9em;
-  font-family: ui-monospace, "SF Mono", Menlo, monospace;
+  font-family: var(--font-mono);
 }
 
 /* Footer */

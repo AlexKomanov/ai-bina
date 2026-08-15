@@ -3,6 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="../assets/theme.js"></script>
 <title>גיליון 1 (9 באוגוסט 2026) | Ai Bina</title>
 <meta name="description" content="מודלים וסוכנים חדשים, אירועי אבטחה, כלי יצירה, ופסיקות זכויות יוצרים — כל מה שקרה השבוע בעולם ה־AI.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -12,10 +13,33 @@
 </head>
 <body>
 <header>
-  <a class="header-inner" href="../index.html">
-    <img class="logo" src="../assets/ai_bina_logo.png" alt="Ai Bina">
-    <span class="tagline">סיכום חדשות AI שבועי</span>
-  </a>
+  <div class="header-bar">
+    <a class="header-inner" href="../index.html">
+      <img class="logo" src="../assets/ai_bina_logo.png" alt="Ai Bina">
+      <span class="tagline">סיכום חדשות AI שבועי</span>
+    </a>
+    <div class="theme-toggle" role="group" aria-label="החלפת ערכת נושא">
+      <button type="button" class="theme-toggle-btn" data-set-theme="light" aria-label="מצב בהיר" aria-pressed="false">
+        <svg class="icon-sun" viewBox="0 0 24 24" aria-hidden="true">
+          <circle cx="12" cy="12" r="4.5"></circle>
+          <line x1="12" y1="2.5" x2="12" y2="5"></line>
+          <line x1="12" y1="19" x2="12" y2="21.5"></line>
+          <line x1="2.5" y1="12" x2="5" y2="12"></line>
+          <line x1="19" y1="12" x2="21.5" y2="12"></line>
+          <line x1="5.1" y1="5.1" x2="6.8" y2="6.8"></line>
+          <line x1="17.2" y1="17.2" x2="18.9" y2="18.9"></line>
+          <line x1="5.1" y1="18.9" x2="6.8" y2="17.2"></line>
+          <line x1="17.2" y1="6.8" x2="18.9" y2="5.1"></line>
+        </svg>
+      </button>
+      <button type="button" class="toggle-track" data-toggle-theme aria-label="החלפת ערכת נושא"><span class="toggle-knob"></span></button>
+      <button type="button" class="theme-toggle-btn" data-set-theme="dark" aria-label="מצב כהה" aria-pressed="true">
+        <svg class="icon-moon" viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+        </svg>
+      </button>
+    </div>
+  </div>
   <div class="neon-line" aria-hidden="true"></div>
 </header>
 
